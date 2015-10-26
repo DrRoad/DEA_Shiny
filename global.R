@@ -1,3 +1,11 @@
+# File:        global.R
+# Description: calls libraries and defines global contants used throughout code
+# Author:      Kevin van Blommestein
+
+packages <- c("shiny", "shinydashboard", "TFDEA")
+if (length(setdiff(packages, installed.packages())) > 0)
+  install.packages(setdiff(packages, installed.packages()))
+
 library(shiny)
 library(shinydashboard)
 library(TFDEA)
