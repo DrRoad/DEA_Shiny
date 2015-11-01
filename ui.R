@@ -51,7 +51,7 @@ dashboardPage(skin = "blue",
       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")
     ),
     tabBox(
-        title = tagList(shiny::icon("line-chart"), "Results"), 
+        title = tagList(shiny::icon("line-chart"), "Output"), 
         width = NULL,
         id = "tabset.result",
         tabPanel("Introduction",
@@ -64,11 +64,11 @@ dashboardPage(skin = "blue",
                  assumptions. As opposed to regression, which fits a line through the center of the data, 
                  DEA creates a piecewise linear curve on top of the observations [3]."),
                  # br(),
-                 h5("Formulation for Input-Oriented Variable Returns to Scale (VRS) DEA model, including slack variables:"),
+                 h5("Formulation for an Input-Oriented Variable Returns to Scale (VRS) DEA model, including slack variables:"),
                  withMathJax(),
                  p("$$\\text{minimize  }\\theta$$
                    $$\\sum_{j=1}^{n} x_{i,j}\\lambda_j - \\theta x_{i,k} + s^x_i = 0 \\; \\forall i$$
-                   $$\\sum_{j=1}^{n} y_{r,j}\\lambda_j - s^y =  y_{r,k} \\; \\forall r$$
+                   $$\\sum_{j=1}^{n} y_{r,j}\\lambda_j - s^y_j =  y_{r,k} \\; \\forall r$$
                    $$\\text{subject to }\\sum_{j=1}^{n} \\lambda_j  = 1$$
                    $$\\lambda_j , s^x_i, s^y_r \\geq 0  \\; \\forall i, \\; r, \\; j$$"),
                  
@@ -77,7 +77,7 @@ dashboardPage(skin = "blue",
                    tags$li('M. J. Farrell, "The Measurement of Productive Efficiency", vol. 120, no. 3, pp. 253-290, 1957.'),
                    tags$li('W. W. Cooper, L. M. Seiford, and J. Zhu, "Handbook on Data Envelopment Analysis", 1st ed. Kluwer Academic Publishers, 2004.'))
         ),
-        tabPanel("Data Table", 
+        tabPanel("Data", 
                  h3("Uploaded Data"),
                  dataTableOutput(outputId = "table.data")
         ),
@@ -85,13 +85,27 @@ dashboardPage(skin = "blue",
                  h3("Results"),
                  p("Description of Results:",
                  tags$ul(
-                  tags$li("In an input-oriented model, efficiency < 1 indicates inefficiency"),
-                  tags$li("In an output-oriented model, efficiency > 1 indicates inefficiency"),
-                  tags$li("status1 and status2 reflect 'error' statuses (0 = no problem)"),
-                  tags$li("lambda.xx indicates that DMU xx is used (> 0) or not used (= 0) in setting a 'target' for any of the other DMUs"))),
-                 br(),
-                 dataTableOutput(outputId = "table.result"),
-                 downloadButton('download.result', 'Download')
+                  tags$li("In an input-oriented model, efficiency (eff) < 1 indicates inefficiency."),
+                  tags$li("In an output-oriented model, efficiency (eff) > 1 indicates inefficiency."),
+                  tags$li("status1 and status2 reflect 'error' statuses (0 = no problem)."),
+                  tags$li("lambda_dmu_i > 0 indicates that dmu_i is used in setting a 'target' for the other DMU."), 
+                  tags$li("Column(s) for DMU's with all zero lambdas ar not shown in the table below, however they are included in the download."))),
+                 # tags$li("Click the Download button below to download the results in csv format"))),
+                 # br(),
+                 tabBox(
+                   # title = tagList(shiny::icon("table"), "Table"), 
+                   width = NULL,
+                   id = "tabset.result.sub",
+                   tabPanel("Efficiency",
+                            plotOutput("plot.eff", height = 350)    
+                   ),
+                   tabPanel("Lambda",
+                            plotOutput("plot.lambda", height = 350)    
+                   ),
+                   tabPanel("Table",
+                    downloadButton('download.result', 'Download'),
+                    dataTableOutput(outputId = "table.result")
+                   ))
         )
     )
   )    

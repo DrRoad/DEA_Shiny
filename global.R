@@ -2,13 +2,16 @@
 # Description: calls libraries and defines global contants used throughout code
 # Author:      Kevin van Blommestein
 
-packages <- c("shiny", "shinydashboard", "TFDEA")
+packages <- c("shiny", "shinydashboard", "TFDEA", "ggplot2", "dplyr", "tidyr")
 if (length(setdiff(packages, installed.packages())) > 0)
   install.packages(setdiff(packages, installed.packages()))
 
 library(shiny)
 library(shinydashboard)
 library(TFDEA)
+library(ggplot2)
+library(dplyr)
+library(tidyr)
 
 # Options used through code
 opts <- list()
@@ -19,7 +22,7 @@ opts$file$quote <- c(None = 'none', 'Double Quote' = 'double', 'Single_Quote' = 
 
 # Options/Defaults for model
 opts$model$rts <- c('vrs' , 'crs', 'drs', 'irs')
-opts$model$orientation <- c('input', 'output')
+opts$model$orientation <- c('output', 'input')
 opts$model$slack <- TRUE
 opts$model$dual <- FALSE
 opts$model$round <- FALSE
