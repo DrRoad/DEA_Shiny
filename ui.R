@@ -97,10 +97,10 @@ dashboardPage(skin = "blue",
                    width = NULL,
                    id = "tabset.result.sub",
                    tabPanel("Efficiency",
-                            plotOutput("plot.eff", height = 350)    
+                            plotOutput("plot.eff", height = 500)    
                    ),
                    tabPanel("Lambda",
-                            plotOutput("plot.lambda", height = 350)    
+                            plotOutput("plot.lambda", height = 500)    
                    ),
                    tabPanel("Table",
                     downloadButton('download.result', 'Download'),

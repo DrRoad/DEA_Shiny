@@ -158,7 +158,11 @@ server <- function(session, input, output) {
       return(NULL)
     
     d.plot <- reactiveData$res %>% select(dmu, contains("lambda.")) %>% gather(dmu2, lambda, -dmu)
-    ggplot(d.plot, aes(dmu, dmu2)) + geom_tile(aes(fill = lambda)) + 
-    theme_bw() + ylab("DMU") + xlab("DMU") + theme(axis.text.x = element_text(angle = 90, vjust = 0.4, hjust=1))
+    d.plot$dmu <- as.factor(toupper(d.plot$dmu))
+    d.plot$dmu2 <- as.factor(toupper(gsub("lambda.", "", d.plot$dmu2)))
+    levels(d.plot$dmu2) <- levels(d.plot$dmu2)[length(levels(d.plot$dmu2)):1]
+    ggplot(d.plot, aes(dmu, dmu2)) + geom_tile(aes(fill = lambda), color = "black") + 
+    theme_bw() + ylab("DMU2") + xlab("DMU") + theme(axis.text.x = element_text(angle = 90, vjust = 0.4, hjust=1)) + 
+    scale_fill_gradient(low = "white", high = "steelblue")
   })
 }
