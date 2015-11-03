@@ -54,15 +54,42 @@ dashboardPage(skin = "blue",
         title = tagList(shiny::icon("line-chart"), "Output"), 
         width = NULL,
         id = "tabset.result",
-        tabPanel("Introduction",
-                 h3("Introduction"),
+        tabPanel("Getting Started",
+                h3("Steps for Getting Started"),
+                tags$ol(
+                   tags$li('Upload a csv file with rows as the decision making units (DMUs), and columns as the 
+                           input(s)/output(s). Alternatively, click Load Demo File to load example data'),
+                   tags$li('Uploaded data will be shown under the Data tab in the right Output panel'),
+                   tags$li('Enter the following model parameters under the Model tab in the left Setup panel:',
+                           tags$ol(type="a", tags$li(tags$b('DMU names:'), 'column with the names of the DMUs. If none selected, names will be assigned'),
+                                   tags$li(tags$b('Input(s):'), 'column(s) with the input(s) or resources used by each DMU. If model has no inputs, select contant.one'),
+                                   tags$li(tags$b('Output(s):'), 'column(s) with the output(s) or products of each DMU. If model has no outputs, select contant.one'),
+                                   tags$li(tags$b('Returns to Scale:'), 'option of the following:',
+                                           tags$ul(tags$li(tags$b('vrs:'), 'variable returns to scale, convexity and free disposability'),
+                                                   tags$li(tags$b('crs:'), 'constant returns to scale, convexity and free disposability'),
+                                                   tags$li(tags$b('drs:'), 'decreasing returns to scale, convexity, down-scaling and free disposability'),
+                                                   tags$li(tags$b('irs:'), 'increasing returns to scale, (up-scaling, but not down-scaling), convexity and free disposability'))),
+                                   tags$li(tags$b('Orientation:'), 'orientation of the DEA model - input-reduction (input) or output-augmentation (output)'),
+                                   tags$li(tags$b('Maximise Radial Slacks:'), 'a secondary objective function of maximizing radial slacks to identify weakly efficient DMUs'),
+                                   tags$li(tags$b('Report Dual Weights:'), 'reports back the dual weights (multipliers) for the inputs and outputs'),
+                                   tags$li(tags$b('Round Efficiency Values:'), 'rounds efficiency values to 0 and 1 if close'),
+                                   tags$li(tags$b('Secondary Objective Functions:'), 'enables an alternate secondary objective function based on lambda and the z argument'),
+                                   tags$li(tags$b('Secondary z:'), 'only used when Secondary Objective Functions is min or max')
+                            )
+                    ),
+                   tags$li('Once a variables have been selected, click the Run Model button'),
+                   tags$li('Results will be shown under the Results tab in the right Output panel.')
+                )
+        ),
+        tabPanel("DEA Introduction",
+                 h3("DEA Introduction"),
                  p("Data Envelopment Analysis (DEA) was first formulated by Charnes et al. [1], 
-                 which built on earlier work by Farrell [2]. DEA is non parametric linear programming 
-                 approach used for evaluating the performance of a set of DMUs which convert multiple 
-                 inputs into multiple outputs. It is useful for cases where the relationships between 
-                 the inputs and outputs are complex or unknown and it does not require any prior 
-                 assumptions. As opposed to regression, which fits a line through the center of the data, 
-                 DEA creates a piecewise linear curve on top of the observations [3]."),
+                   which built on earlier work by Farrell [2]. DEA is non parametric linear programming 
+                   approach used for evaluating the performance of a set of DMUs which convert multiple 
+                   inputs into multiple outputs. It is useful for cases where the relationships between 
+                   the inputs and outputs are complex or unknown and it does not require any prior 
+                   assumptions. As opposed to regression, which fits a line through the center of the data, 
+                   DEA creates a piecewise linear curve on top of the observations [3]."),
                  # br(),
                  h5("Formulation for an Input-Oriented Variable Returns to Scale (VRS) DEA model, including slack variables:"),
                  withMathJax(),
@@ -74,8 +101,10 @@ dashboardPage(skin = "blue",
                  
                  h4("References"),
                  tags$ol(
+                   tags$li('A. Charnes, W. W. Cooper, and E. Rhodes, “Measuring the efficiency of decision making units”, Eur. J. Oper. Res., vol. 2, no. 6, pp. 429–444, Nov. 1978'),
                    tags$li('M. J. Farrell, "The Measurement of Productive Efficiency", vol. 120, no. 3, pp. 253-290, 1957.'),
-                   tags$li('W. W. Cooper, L. M. Seiford, and J. Zhu, "Handbook on Data Envelopment Analysis", 1st ed. Kluwer Academic Publishers, 2004.'))
+                   tags$li('W. W. Cooper, L. M. Seiford, and J. Zhu, "Handbook on Data Envelopment Analysis", 1st ed. Kluwer Academic Publishers, 2004.')
+                 )
         ),
         tabPanel("Data", 
                  h3("Uploaded Data"),

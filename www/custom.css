@@ -14,4 +14,10 @@
   margin-bottom: 0;
 }
 
-.table tfoot {display:none;}
+.table tfoot {
+  display:none;
+}
+
+li{
+    margin: 0 0 5px 0;
+}
